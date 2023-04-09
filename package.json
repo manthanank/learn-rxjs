@@ -1,0 +1,15 @@
+{
+  "name": "learn-rxjs",
+  "version": "1.0.0",
+  "description": "Complete RxJS with all resources to learn.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "rxjs"
+  ],
+  "author": "Manthan Ank",
+  "license": "ISC"
+}
