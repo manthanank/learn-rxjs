@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/manthanank/learn-rxjs/compare/v1.2.0...v1.3.0) (2023-04-09)
+
+
+### Features
+
+* added npm package ([184ff01](https://github.com/manthanank/learn-rxjs/commit/184ff01189da7b405617fe46a36ec4b975828bc8))
+
+
+
 # [1.2.0](https://github.com/manthanank/learn-rxjs/compare/v1.1.0...v1.2.0) (2023-04-09)
 
 
