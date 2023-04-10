@@ -2,7 +2,10 @@
 
 ## Contents
 
-- [Observables](#observales)
+- [Introduction](#rxjs-reactive-extensions-library-for-javascript)
+- [Installation](#installation)
+- [Importing](#importing)
+- [Observables](#observables)
 - [Observer](#observer)
 - [Operators](#operators)
   - [Categories of operators](#categories-of-operators)
@@ -24,7 +27,29 @@
 
 RxJS is a library for reactive programming using Observables, to make it easier to compose asynchronous or callback-based code.
 
-## Observales
+## Installation
+
+```bash
+npm install rxjs
+```
+
+## Importing
+
+```typescript
+'rxjs' - for example: import { of } from 'rxjs';
+
+'rxjs/operators' - for example: import { map } from 'rxjs/operators';
+
+'rxjs/ajax' - for example: import { ajax } from 'rxjs/ajax';
+
+'rxjs/fetch' - for example: import { fromFetch } from 'rxjs/fetch';
+
+'rxjs/webSocket' - for example: import { webSocket } from 'rxjs/webSocket';
+
+'rxjs/testing' - for example: import { TestScheduler } from 'rxjs/testing';
+```
+
+## Observables
 
 Observables are declarative which provide support for passing messages between publishers and subscribers.
 
@@ -32,6 +57,48 @@ Observables are declarative which provide support for passing messages between p
 // pipe
 
 // subscribe
+```
+
+```typescript
+import { Observable } from 'rxjs';
+
+const observable = new Observable((subscriber) => {
+  subscriber.next(1);
+  subscriber.next(2);
+  subscriber.next(3);
+  setTimeout(() => {
+    subscriber.next(4);
+    subscriber.complete();
+  }, 1000);
+});
+```
+
+```typescript
+import { Observable } from 'rxjs';
+
+const observable = new Observable((subscriber) => {
+  subscriber.next(1);
+  subscriber.next(2);
+  subscriber.next(3);
+  setTimeout(() => {
+    subscriber.next(4);
+    subscriber.complete();
+  }, 1000);
+});
+
+console.log('just before subscribe');
+observable.subscribe({
+  next(x) {
+    console.log('got value ' + x);
+  },
+  error(err) {
+    console.error('something wrong occurred: ' + err);
+  },
+  complete() {
+    console.log('done');
+  },
+});
+console.log('just after subscribe');
 ```
 
 ## Observer
@@ -44,6 +111,18 @@ An Observer is a consumer of values delivered by an Observable. Observers are si
 // error
 
 // complete
+```
+
+```typescript
+const observer = {
+  next: x => console.log('Observer got a next value: ' + x),
+  error: err => console.error('Observer got an error: ' + err),
+  complete: () => console.log('Observer got a complete notification'),
+};
+```
+
+```typescript
+observable.subscribe(observer);
 ```
 
 ## Operators
