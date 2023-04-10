@@ -1,6 +1,6 @@
 {
   "name": "learn-rxjs",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "description": "Complete RxJS with all resources to learn.",
   "main": "index.js",
   "scripts": {
@@ -11,5 +11,8 @@
     "rxjs"
   ],
   "author": "Manthan Ank",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "rxjs": "^7.8.0"
+  }
 }
