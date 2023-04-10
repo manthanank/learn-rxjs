@@ -1,3 +1,12 @@
+# [1.5.0](https://github.com/manthanank/learn-rxjs/compare/v1.4.0...v1.5.0) (2023-04-10)
+
+
+### Features
+
+* updated to auto publish ([f46c3ce](https://github.com/manthanank/learn-rxjs/commit/f46c3ce6432816cd9a433c63c892f3cd4634d8e8))
+
+
+
 # [1.4.0](https://github.com/manthanank/learn-rxjs/compare/v1.3.0...v1.4.0) (2023-04-10)
 
 
