@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/manthanank/learn-rxjs/compare/v1.3.0...v1.4.0) (2023-04-10)
+
+
+### Features
+
+* added some content ([0d415dc](https://github.com/manthanank/learn-rxjs/commit/0d415dc06130a3adbc3f8b7617a9d0e7659ebcff))
+
+
+
 # [1.3.0](https://github.com/manthanank/learn-rxjs/compare/v1.2.0...v1.3.0) (2023-04-09)
 
 
