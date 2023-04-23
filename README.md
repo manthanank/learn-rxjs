@@ -1,5 +1,7 @@
 # Learn Rxjs
 
+![npm](https://img.shields.io/npm/dw/learn-rxjs)
+
 ## Contents
 
 - [Introduction](#rxjs-reactive-extensions-library-for-javascript)
