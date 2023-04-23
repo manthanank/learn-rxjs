@@ -1,3 +1,12 @@
+# [1.6.0](https://github.com/manthanank/learn-rxjs/compare/v1.5.1...v1.6.0) (2023-04-23)
+
+
+### Features
+
+* updated ([bc32d97](https://github.com/manthanank/learn-rxjs/commit/bc32d9705505a9c3fbddb968298cc394760e2159))
+
+
+
 ## [1.5.1](https://github.com/manthanank/learn-rxjs/compare/v1.5.0...v1.5.1) (2023-04-10)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * added npm package ([184ff01](https://github.com/manthanank/learn-rxjs/commit/184ff01189da7b405617fe46a36ec4b975828bc8))
-
-
-
-# [1.2.0](https://github.com/manthanank/learn-rxjs/compare/v1.1.0...v1.2.0) (2023-04-09)
-
-
-### Features
-
-* added docker file ([80b2226](https://github.com/manthanank/learn-rxjs/commit/80b22260592b368f79de75cc3465e5d3e6b31b01))
 
 
 
