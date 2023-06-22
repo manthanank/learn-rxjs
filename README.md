@@ -1,6 +1,9 @@
 # Learn Rxjs
 
 ![npm](https://img.shields.io/npm/dw/learn-rxjs)
+![npm](https://img.shields.io/npm/dm/learn-rxjs)
+![npm](https://img.shields.io/npm/dy/learn-rxjs)
+![npm](https://img.shields.io/npm/dt/learn-rxjs)
 
 ## Contents
 
