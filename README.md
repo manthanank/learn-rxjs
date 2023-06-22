@@ -1155,16 +1155,65 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-- delay
-- delayWhen
-- dematerialize
-- materialize
-- observeOn
-- subscribeOn
-- timeInterval
-- timestamp
-- timeout
-- timeoutWith
+delay
+
+```typescript
+
+```
+
+delayWhen
+
+```typescript
+
+```
+
+dematerialize
+
+```typescript
+
+```
+
+materialize
+
+```typescript
+
+```
+
+observeOn
+
+```typescript
+
+```
+
+subscribeOn
+
+```typescript
+
+```
+
+timeInterval
+
+```typescript
+
+```
+
+timestamp
+
+```typescript
+
+```
+
+timeout
+
+```typescript
+
+```
+
+timeoutWith
+
+```typescript
+
+```
 
 **toArray** - Collects all source emissions and emits them as an array when the source completes.
 
