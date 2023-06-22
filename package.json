@@ -1,6 +1,6 @@
 {
   "name": "learn-rxjs",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Complete RxJS with all resources to learn.",
   "main": "index.js",
   "scripts": {

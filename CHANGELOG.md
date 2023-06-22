@@ -1,3 +1,12 @@
+# [1.7.0](https://github.com/manthanank/learn-rxjs/compare/v1.6.0...v1.7.0) (2023-06-22)
+
+
+### Features
+
+* added shields ([8e1250d](https://github.com/manthanank/learn-rxjs/commit/8e1250d5e08fc3bce6b12e06417d14c6567668c0))
+
+
+
 # [1.6.0](https://github.com/manthanank/learn-rxjs/compare/v1.5.1...v1.6.0) (2023-04-23)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * added some content ([0d415dc](https://github.com/manthanank/learn-rxjs/commit/0d415dc06130a3adbc3f8b7617a9d0e7659ebcff))
-
-
-
-# [1.3.0](https://github.com/manthanank/learn-rxjs/compare/v1.2.0...v1.3.0) (2023-04-09)
-
-
-### Features
-
-* added npm package ([184ff01](https://github.com/manthanank/learn-rxjs/commit/184ff01189da7b405617fe46a36ec4b975828bc8))
 
 
 
