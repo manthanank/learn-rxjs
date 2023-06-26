@@ -175,10 +175,53 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**bindCallback** -
+**bindCallback** - `bindCallback` operator is used to convert a callback-style function into an observable.
+
+It allows you to work with asynchronous APIs that follow the Node.js-style callback pattern, where the last argument of a function is a callback function that is invoked with the result or error.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { bindCallback } from 'rxjs/ajax';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>bindCallback Example</h1>
+    <button (click)="performAsyncOperation()">Perform Async Operation</button>
+  `,
+})
+export class App implements OnInit {
+  
+  ngOnInit() {}
+
+  performAsyncOperation() {
+    const boundAsyncFunction = bindCallback(this.someAsyncFunction);
+
+    boundAsyncFunction().subscribe(([error, result]) => {
+      if (error) {
+        console.error('An error occurred:', error);
+      } else {
+        console.log('Result:', result);
+      }
+    });
+  }
+
+  someAsyncFunction(callback: (error: any, result: any) => void) {
+    // Simulating an asynchronous operation
+    setTimeout(() => {
+      const error = null;
+      const result = 'Hello, world!';
+      callback(error, result);
+    }, 2000);
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **bindNodeCallback** -
