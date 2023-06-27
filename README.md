@@ -226,10 +226,60 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**bindNodeCallback** -
+**bindNodeCallback** - `bindNodeCallback` is a function that converts a Node.js-style callback function into an Observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { bindNodeCallback  } from 'rxjs/ajax';
 
+// Assume we have a Node.js-style callback function for file reading
+function readFileAsync(filePath: string, callback: (error: Error | null, data: string) => void) {
+  // Some asynchronous file reading logic
+  // Call the callback with the error (if any) and the file data
+  setTimeout(() => {
+    if (filePath === '/path/to/file.txt') {
+      callback(null, 'File content goes here');
+    } else {
+      callback(new Error('File not found'), null);
+    }
+  }, 2000);
+}
+
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>bindNodeCallback Example</h1>
+    <div>{{ fileContent }}</div>
+  `,
+})
+export class App implements OnInit {
+  
+  fileContent: string;
+
+  ngOnInit() {
+    const readFile = bindNodeCallback(readFileAsync);
+    const filePath = '/path/to/file.txt';
+
+    const readFile$ = readFile(filePath);
+
+    readFile$.subscribe(
+      (data: string) => {
+        this.fileContent = data;
+        console.log('File content:', data);
+      },
+      (error: Error) => {
+        console.error('Error reading file:', error);
+      }
+    );
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **defer** -
