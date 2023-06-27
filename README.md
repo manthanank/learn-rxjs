@@ -1,5 +1,7 @@
 # Learn Rxjs
 
+[![NPM Package](https://github.com/manthanank/learn-rxjs/actions/workflows/publish.yml/badge.svg)](https://github.com/manthanank/learn-rxjs/actions/workflows/publish.yml)
+[![Releases](https://github.com/manthanank/learn-rxjs/actions/workflows/releases.yml/badge.svg)](https://github.com/manthanank/learn-rxjs/actions/workflows/releases.yml)
 ![npm](https://img.shields.io/npm/dw/learn-rxjs)
 ![npm](https://img.shields.io/npm/dm/learn-rxjs)
 ![npm](https://img.shields.io/npm/dy/learn-rxjs)
