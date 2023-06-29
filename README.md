@@ -282,16 +282,66 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**defer** -
+**defer** - Creates an Observable that, on subscribe, calls an Observable factory to make an Observable for each new Observer.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { switchMap, defer, of, timer, merge } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `<h1>defer operator</h1>`,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const s1 = of(new Date()); //will capture current date time
+    const s2 = defer(() => of(new Date())); //will capture date time at the moment of subscription
+
+    console.log(new Date());
+
+    timer(2000)
+      .pipe(switchMap(_ => merge(s1, s2)))
+      .subscribe(console.log);
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**empty** -
+**empty** - Replaced with the EMPTY constant or scheduled (e.g. scheduled([], scheduler)). Will be removed in v8.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { empty } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+  <h1>empty operator</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const subscribe = empty().subscribe({
+      next: () => console.log('Next'),
+      complete: () => console.log('Complete!')
+    });
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **from** - Creates an Observable from an Array, an array-like object, a Promise, an iterable object, or an Observable-like object.
