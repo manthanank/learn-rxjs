@@ -430,10 +430,65 @@ bootstrapApplication(App);
 
 [Stackblitz Link](https://stackblitz.com/edit/angular-qy1hve?file=src/main.ts)
 
-**fromEventPattern** -
+**fromEventPattern** - Creates an Observable from an arbitrary API for registering event handlers.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEventPattern, Subject } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <button (click)="startListening()">Start Listening</button>
+    <button (click)="stopListening()">Stop Listening</button>
+  `,
+})
+export class App implements AfterViewInit {
+  private eventListener: EventListenerOrEventListenerObject;
+  private eventSubject: Subject<Event>;
+
+  ngOnInit() {
+    this.eventSubject = new Subject<Event>();
+    this.eventListener = (event: Event) => this.eventSubject.next(event);
+  }
+
+  ngOnDestroy() {
+    this.eventSubject.complete();
+  }
+
+  startListening() {
+    const observable = fromEventPattern(
+      // Function to add the event listener
+      (handler: EventListenerOrEventListenerObject) => {
+        document.addEventListener('customEvent', handler);
+      },
+      // Function to remove the event listener
+      (handler: EventListenerOrEventListenerObject) => {
+        document.removeEventListener('customEvent', handler);
+      }
+    );
+
+    observable.subscribe((event: Event) => {
+      console.log('Event received:', event);
+      // Handle the event as needed
+    });
+
+    this.eventSubject.subscribe((event: Event) => {
+      document.dispatchEvent(event);
+    });
+  }
+
+  stopListening() {
+    this.eventSubject.complete();
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **generate** -
