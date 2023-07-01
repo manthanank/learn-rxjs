@@ -520,13 +520,37 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**interval** -
+**interval** - Creates an Observable that emits sequential numbers every specified interval of time, on a specified SchedulerLike.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval, take } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>interval operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const numbers = interval(1000);
+    
+    const takeFourNumbers = numbers.pipe(take(4));
+    
+    takeFourNumbers.subscribe(x => console.log('Next: ', x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**of** -
+**of** - Converts the arguments to an observable sequence.
 
 ```jsx
 import 'zone.js/dist/zone';
@@ -696,7 +720,7 @@ bootstrapApplication(App);
 
 ```
 
-**map** -
+**map** - Applies a given project function to each value emitted by the source Observable, and emits the resulting values as an Observable.
 
 ```jsx
 import 'zone.js/dist/zone';
@@ -883,7 +907,7 @@ bootstrapApplication(App);
 
 ```
 
-**switchMap** -
+**switchMap** - Projects each source value to an Observable which is merged in the output Observable, emitting values only from the most recently projected Observable.
 
 ```jsx
 import 'zone.js/dist/zone';
