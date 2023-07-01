@@ -491,10 +491,33 @@ export class App implements AfterViewInit {
 bootstrapApplication(App);
 ```
 
-**generate** -
+**generate** - Generates an observable sequence by running a state-driven loop producing the sequence's elements, using the specified scheduler to send out observer messages.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { generate } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>generate example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const result = generate(0, x => x < 3, x => x + 1, x => x);
+
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **interval** -
