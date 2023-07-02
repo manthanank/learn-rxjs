@@ -764,10 +764,33 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**mapTo** -
+**mapTo** - Emits the given constant value on the output Observable every time the source Observable emits a value.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, mapTo } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>mapTo operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const greetings = clicks.pipe(mapTo('Hi'));
+
+    greetings.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **mergeMap** -
