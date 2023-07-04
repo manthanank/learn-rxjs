@@ -793,10 +793,35 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**mergeMap** -
+**mergeMap** - Projects each source value to an Observable which is merged in the output Observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, mergeMap, interval, map } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>mergeMap operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const letters = of('a', 'b', 'c');
+    const result = letters.pipe(
+      mergeMap(x => interval(1000).pipe(map(i => x + i)))
+    );
+    
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **mergeMapTo** -
