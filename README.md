@@ -824,10 +824,33 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**mergeMapTo** -
+**mergeMapTo** - Projects each source value to the same Observable which is merged multiple times in the output Observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, mergeMapTo, interval } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>mergeMapTo operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(mergeMapTo(interval(1000)));
+
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **mergeScan** -
