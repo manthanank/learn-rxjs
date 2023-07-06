@@ -853,10 +853,37 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**mergeScan** -
+**mergeScan** - Applies an accumulator function over the source Observable where the accumulator function itself returns an Observable, then each intermediate Observable returned is merged into the output Observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, map, mergeScan, of } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>mergeScan operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const click$ = fromEvent(document, 'click');
+    const one$ = click$.pipe(map(() => 1));
+    const seed = 0;
+    const count$ = one$.pipe(
+      mergeScan((acc, one) => of(acc + one), seed)
+    );
+    
+    count$.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **pairwise** -
