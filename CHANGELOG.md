@@ -1,3 +1,12 @@
+# [1.19.0](https://github.com/manthanank/learn-rxjs/compare/v1.18.0...v1.19.0) (2023-07-08)
+
+
+### Features
+
+* updated readme ([29a2d1d](https://github.com/manthanank/learn-rxjs/commit/29a2d1d5d431ef0b53e0a84056c2d8c7d41ccb40))
+
+
+
 # [1.18.0](https://github.com/manthanank/learn-rxjs/compare/v1.17.0...v1.18.0) (2023-07-06)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * updated readme ([5816e50](https://github.com/manthanank/learn-rxjs/commit/5816e505f2050df7cbddd26dd7d0895372f8ee19))
-
-
-
-# [1.14.0](https://github.com/manthanank/learn-rxjs/compare/v1.13.0...v1.14.0) (2023-07-01)
-
-
-### Features
-
-* updated readme ([cb0c607](https://github.com/manthanank/learn-rxjs/commit/cb0c6073144759d1ba5444db4d21d363dc653e82))
 
 
 
