@@ -886,16 +886,72 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**pairwise** -
+**pairwise** - Groups pairs of consecutive emissions together and emits them as an array of two values.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, pairwise, map } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>pairwise operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent<PointerEvent>(document, 'click');
+    const pairs = clicks.pipe(pairwise());
+    const distance = pairs.pipe(
+      map(([first, second]) => {
+        const x0 = first.clientX;
+        const y0 = first.clientY;
+        const x1 = second.clientX;
+        const y1 = second.clientY;
+        return Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2));
+      })
+    );
+    
+    distance.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**partition** -
+**partition** - Splits the source Observable into two, one with values that satisfy a predicate, and another with values that don't satisfy the predicate.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, partition } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>partition operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const observableValues = of(1, 2, 3, 4, 5, 6);
+    const [evens$, odds$] = partition(observableValues, value => value % 2 === 0);
+    
+    odds$.subscribe(x => console.log('odds', x));
+    evens$.subscribe(x => console.log('evens', x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **pluck** - Maps each source value to its specified nested property.
