@@ -377,7 +377,7 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-[Stackblitz Link](https://stackblitz.com/edit/angular-psyjew?file=src/main.ts)
+[Stackblitz Example Link](https://stackblitz.com/edit/angular-psyjew?file=src/main.ts)
 
 **fromEvent** - Creates an Observable that emits events of a specific type coming from the given event target.
 
@@ -428,7 +428,7 @@ export class App implements AfterViewInit {
 bootstrapApplication(App);
 ```
 
-[Stackblitz Link](https://stackblitz.com/edit/angular-qy1hve?file=src/main.ts)
+[Stackblitz Example Link](https://stackblitz.com/edit/angular-qy1hve?file=src/main.ts)
 
 **fromEventPattern** - Creates an Observable from an arbitrary API for registering event handlers.
 
@@ -1049,17 +1049,45 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**scan** -
+**scan** - Useful for encapsulating and managing state. Applies an accumulator (or "reducer function") to each value from the source after an initial state is established -- either via a seed value (second argument), or from the first value from the source.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, scan, map } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>scan operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const numbers$ = of(1, 2, 3);
+    
+    numbers$
+      .pipe(
+        // Get the sum of the numbers coming in.
+        scan((total, n) => total + n),
+        // Get the average by dividing the sum by the total number
+        // received so far (which is 1 more than the zero-based index).
+        map((sum, index) => sum / (index + 1))
+      )
+      .subscribe(console.log);
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**switchScan** -
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-yk2lwk?file=src%2Fmain.ts)
 
-```typescript
-
-```
+**switchScan** - Applies an accumulator function over the source Observable where the accumulator function itself returns an Observable, emitting values only from the most recently returned Observable.
 
 **switchMap** - Projects each source value to an Observable which is merged in the output Observable, emitting values only from the most recently projected Observable.
 
@@ -1670,7 +1698,7 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-[Stackblitz Link](https://stackblitz.com/edit/angular-qh5szd?file=src/main.ts)
+[Stackblitz Example Link](https://stackblitz.com/edit/angular-qh5szd?file=src/main.ts)
 
 [Back to top⤴️](#contents)
 
