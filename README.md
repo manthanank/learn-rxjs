@@ -1258,11 +1258,35 @@ export class App implements OnInit, AfterViewInit {
 bootstrapApplication(App);
 ```
 
-**distinct** -
+**distinct** - Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from previous items.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, distinct } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>distinct operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    of(1, 1, 2, 2, 2, 1, 2, 3, 4, 3, 2, 1)
+      .pipe(distinct())
+      .subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-ehgdax?file=src%2Fmain.ts)
 
 **distinctUntilChanged** - Returns a result Observable that emits all values pushed by the source observable if they are distinct in comparison to the last value the result observable emitted.
 
