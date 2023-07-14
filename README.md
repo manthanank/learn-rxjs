@@ -580,11 +580,36 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**range** -
+**range** - Creates an Observable that emits a sequence of numbers within a specified range.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { range } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+  <h1>range operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    //emit 1-10 in sequence
+    const source = range(1, 10);
+    //output: 1,2,3,4,5,6,7,8,9,10
+    const example = source.subscribe(val => console.log(val));
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-7899ka?file=src%2Fmain.ts)
 
 **throwError** -
 
