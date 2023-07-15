@@ -1178,11 +1178,40 @@ bootstrapApplication(App);
 
 [Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-wbj1xt?file=src%2Fmain.ts)
 
-**window** -
+**window** - Branch out the source Observable values as a nested Observable whenever windowBoundaries emits.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, interval, window, map, take, mergeAll } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>window operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const sec = interval(1000);
+    const result = clicks.pipe(
+      window(sec),
+      map(win => win.pipe(take(2))), // take at most 2 emissions from each window
+      mergeAll()                     // flatten the Observable-of-Observables
+    );
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-q7tjwj?file=src%2Fmain.ts)
 
 **windowCount** -
 
