@@ -1213,11 +1213,70 @@ bootstrapApplication(App);
 
 [Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-q7tjwj?file=src%2Fmain.ts)
 
-**windowCount** -
+**windowCount** - Branch out the source Observable values as a nested Observable with each nested Observable emitting at most windowSize values.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, windowCount, map, skip, mergeAll } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>windowCount operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(
+      windowCount(3),
+      map(win => win.pipe(skip(1))), // skip first of every 3 clicks
+      mergeAll()                     // flatten the Observable-of-Observables
+    );
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, windowCount, mergeAll } from 'rxjs';
+
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>windowCount operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(
+      windowCount(2, 3),
+      mergeAll() // flatten the Observable-of-Observables
+    );
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
+```
+
+[Stackblitz Example 1 Link](https://stackblitz.com/edit/stackblitz-starters-xpy6gh?file=src%2Fmain.ts)
+
+[Stackblitz Example 2 Link](https://stackblitz.com/edit/stackblitz-starters-q7tjwj?file=src%2Fmain.ts)
 
 **windowTime** -
 
