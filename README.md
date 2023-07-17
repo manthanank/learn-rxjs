@@ -1245,6 +1245,8 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
+[Stackblitz Example 1 Link](https://stackblitz.com/edit/stackblitz-starters-xpy6gh?file=src%2Fmain.ts)
+
 ```typescript
 import 'zone.js/dist/zone';
 import { Component, OnInit } from '@angular/core';
@@ -1274,27 +1276,172 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-[Stackblitz Example 1 Link](https://stackblitz.com/edit/stackblitz-starters-xpy6gh?file=src%2Fmain.ts)
-
 [Stackblitz Example 2 Link](https://stackblitz.com/edit/stackblitz-starters-q7tjwj?file=src%2Fmain.ts)
 
-**windowTime** -
+**windowTime** - Branch out the source Observable values as a nested Observable periodically in time.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, windowTime, map, take, mergeAll } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>windowTime operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(
+      windowTime(1000),
+      map(win => win.pipe(take(2))), // take at most 2 emissions from each window
+      mergeAll()                     // flatten the Observable-of-Observables
+    );
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**windowToggle** -
+[Stackblitz Example 1 Link](https://stackblitz.com/edit/stackblitz-starters-uvwhnp?file=src%2Fmain.ts)
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, windowTime, map, take, mergeAll } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>windowTime operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(
+      windowTime(1000, 5000),
+      map(win => win.pipe(take(2))), // take at most 2 emissions from each window
+      mergeAll()                     // flatten the Observable-of-Observables
+    );
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**windowWhen** -
+[Stackblitz Example 2 Link](https://stackblitz.com/edit/stackblitz-starters-mcsaht?file=src%2Fmain.ts)
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, windowTime, mergeAll } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>windowTime operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(
+      windowTime(1000, 5000, 2), // take at most 2 emissions from each window
+      mergeAll()                 // flatten the Observable-of-Observables
+    );
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+[Stackblitz Example 3 Link](https://stackblitz.com/edit/stackblitz-starters-x1qyak?file=src%2Fmain.ts)
+
+**windowToggle** - Branch out the source Observable values as a nested Observable starting from an emission from openings and ending when the output of closingSelector emits.
+
+```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, interval, windowToggle, EMPTY, mergeAll } from 'rxjs';
+
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>windowToggle operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const openings = interval(1000);
+    const result = clicks.pipe(
+      windowToggle(openings, i => i % 2 ? interval(500) : EMPTY),
+      mergeAll()
+    );
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
+```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-qdmr61?file=src%2Fmain.ts)
+
+**windowWhen** - Branch out the source Observable values as a nested Observable using a factory function of closing Observables to determine when to start a new window.
+
+```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, windowWhen, interval, map, take, mergeAll } from 'rxjs';
+
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>windowWhen operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(
+      windowWhen(() => interval(1000 + Math.random() * 4000)),
+      map(win => win.pipe(take(2))), // take at most 2 emissions from each window
+      mergeAll()                     // flatten the Observable-of-Observables
+    );
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
+```
+
+[Stackblitz Example 1 Link](https://stackblitz.com/edit/stackblitz-starters-vjykyp?file=src%2Fmain.ts)
 
 [Back to top⤴️](#contents)
 
