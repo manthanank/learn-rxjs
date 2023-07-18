@@ -1447,23 +1447,98 @@ bootstrapApplication(App);
 
 ### Filtering Operators
 
-**audit** -
+**audit** - Ignores source values for a duration determined by another Observable, then emits the most recent value from the source Observable, then repeats this process.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, audit, interval } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>audit operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(audit(ev => interval(1000)));
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**auditTime** -
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-xskoee?file=src%2Fmain.ts)
+
+**auditTime** - Ignores source values for duration milliseconds, then emits the most recent value from the source Observable, then repeats this process.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, auditTime } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>auditTime operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(auditTime(1000));
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**debounce** -
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-dcpyww?file=src%2Fmain.ts)
+
+**debounce** - Emits a notification from the source Observable only after a particular time span determined by another Observable has passed without another source emission.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, scan, debounce, interval } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>debounce operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(
+      scan(i => ++i, 1),
+      debounce(i => interval(200 * i))
+    );
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-o6khgs?file=src%2Fmain.ts)
 
 **debounceTime** - Emits a notification from the source Observable only after a particular time span has passed without another source emission.
 
