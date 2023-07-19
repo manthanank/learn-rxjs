@@ -611,11 +611,47 @@ bootstrapApplication(App);
 
 [Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-7899ka?file=src%2Fmain.ts)
 
-**throwError** -
+**throwError** - Creates an observable that will create an error instance and push it to the consumer as an error immediately upon subscription.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { throwError } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+  <h1>throwError operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    let errorCount = 0;
+    
+    const errorWithTimestamp$ = throwError(() => {
+      const error: any = new Error(`This is error number ${ ++errorCount }`);
+      error.timestamp = Date.now();
+      return error;
+    });
+    
+    errorWithTimestamp$.subscribe({
+      error: err => console.log(err.timestamp, err.message)
+    });
+    
+    errorWithTimestamp$.subscribe({
+      error: err => console.log(err.timestamp, err.message)
+    });
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-mdhkry?file=src%2Fmain.ts)
 
 **timer** -
 
