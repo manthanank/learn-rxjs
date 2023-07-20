@@ -653,17 +653,69 @@ bootstrapApplication(App);
 
 [Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-mdhkry?file=src%2Fmain.ts)
 
-**timer** -
+**timer** - It is a creation operator used to create an observable that starts emitting the values after the timeout, and the value will keep increasing after each call.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { timer } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+  <h1>timer operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const source = timer(1000);
+    //output: 0
+    const subscribe = source.subscribe(val => console.log(val));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**iif** -
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-6ylica?file=src%2Fmain.ts)
+
+**iif** - Checks a boolean at subscription time, and chooses between one of two observable sources
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { iif, of, interval } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+  <h1>iif operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const r$ = of('R');
+    const x$ = of('X');
+
+    interval(1000)
+      .pipe(mergeMap(v => iif(() => v % 4 === 0, r$, x$)))
+      .subscribe(console.log);
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-ek4ybc?file=src%2Fmain.ts)
 
 [Back to top⤴️](#contents)
 
