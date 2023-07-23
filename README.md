@@ -1765,11 +1765,42 @@ export class App implements OnInit, AfterViewInit {
 bootstrapApplication(App);
 ```
 
-**distinctUntilKeyChanged** -
+**distinctUntilKeyChanged** - Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from the previous item, using a property accessed by using the key provided to check if the two items are distinct.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, distinctUntilKeyChanged } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>distinctUntilKeyChanged Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    of(
+      { age: 4, name: 'Foo' },
+      { age: 7, name: 'Bar' },
+      { age: 5, name: 'Foo' },
+      { age: 6, name: 'Foo' }
+    ).pipe(
+      distinctUntilKeyChanged('name')
+    )
+    .subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-jtriop?file=src%2Fmain.ts)
 
 **elementAt** -
 
