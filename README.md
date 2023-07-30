@@ -721,11 +721,38 @@ bootstrapApplication(App);
 
 ### Join Creation Operators
 
-**combineLatest** -
+**combineLatest** - Combines multiple Observables to create an Observable whose values are calculated from the latest values of each of its input Observables.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { timer, combineLatest } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>combineLatest operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const firstTimer = timer(0, 1000); // emit 0, 1, 2... after every second, starting from now
+    const secondTimer = timer(500, 1000); // emit 0, 1, 2... after every second, starting 0,5s from now
+    const combinedTimers = combineLatest([firstTimer, secondTimer]);
+    combinedTimers.subscribe(value => console.log(value));
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+[Stackblitz RxJS Example Link](https://stackblitz.com/edit/rxjs-zhrajm?file=index.ts)
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-dknwwt?file=src%2Fmain.ts)
 
 **concat** -
 
