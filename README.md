@@ -754,11 +754,38 @@ bootstrapApplication(App);
 
 [Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-dknwwt?file=src%2Fmain.ts)
 
-**concat** -
+**concat** - Creates an output Observable which sequentially emits all values from the first given Observable and then moves on to the next.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval, take, range, concat } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>combineLatest operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const timer = interval(1000).pipe(take(4));
+    const sequence = range(1, 10);
+    const result = concat(timer, sequence);
+    result.subscribe((x) => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+[Stackblitz RxJS Example Link](https://stackblitz.com/edit/rxjs-dvj3th?file=index.ts)
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-yshqh7?file=src%2Fmain.ts)
 
 **forkJoin** -
 
