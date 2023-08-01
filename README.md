@@ -787,11 +787,43 @@ bootstrapApplication(App);
 
 [Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-yshqh7?file=src%2Fmain.ts)
 
-**forkJoin** -
+**forkJoin** - Accepts an Array of ObservableInput or a dictionary Object of ObservableInput and returns an Observable that emits either an array of values in the exact same order as the passed array, or a dictionary of values in the same shape as the passed dictionary.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { forkJoin, of, timer } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>forkJoin operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const observable = forkJoin({
+      foo: of(1, 2, 3, 4),
+      bar: Promise.resolve(8),
+      baz: timer(4000),
+    });
+    observable.subscribe({
+      next: (value) => console.log(value),
+      complete: () => console.log('This is how it ends!'),
+    });
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+[Stackblitz RxJS Example Link](https://stackblitz.com/edit/rxjs-gehtea?file=index.html)
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-7lvb9w?file=src%2Fmain.ts)
 
 **merge** -
 
