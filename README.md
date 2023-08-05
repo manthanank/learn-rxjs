@@ -825,11 +825,38 @@ bootstrapApplication(App);
 
 [Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-7lvb9w?file=src%2Fmain.ts)
 
-**merge** -
+**merge** - Creates an output Observable which concurrently emits all values from every given input Observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { merge, fromEvent, interval } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>merge operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const timer = interval(1000);
+    const clicksOrTimer = merge(clicks, timer);
+    clicksOrTimer.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+[Stackblitz RxJS Example Link](https://stackblitz.com/edit/rxjs-e4uy3s?file=index.html)
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-x8njvg?file=src%2Fmain.ts)
 
 **partition** -
 
