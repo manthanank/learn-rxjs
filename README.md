@@ -892,86 +892,375 @@ bootstrapApplication(App);
 
 [Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-tmvrze?file=src%2Fmain.ts)
 
-**race** -
+**race** - Returns an observable that mirrors the first source observable to emit an item.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval, map, race } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>race operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const obs1 = interval(7000).pipe(map(() => 'slow one'));
+    const obs2 = interval(3000).pipe(map(() => 'fast one'));
+    const obs3 = interval(5000).pipe(map(() => 'medium one'));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**zip** -
+**zip** - Combines multiple Observables to create an Observable whose values are calculated from the values, in order, of each of its input Observables.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, zip, map } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>zip operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const age$ = of(27, 25, 29);
+    const name$ = of('Foo', 'Bar', 'Beer');
+    const isDev$ = of(true, true, false);
+    
+    zip(age$, name$, isDev$).pipe(
+      map(([age, name, isDev]) => ({ age, name, isDev }))
+    )
+    .subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 [Back to top⤴️](#contents)
 
 ### Transformation Operators
 
-**buffer** -
+**buffer** - Buffers the source Observable values until closingNotifier emits.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, interval, buffer } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>buffer operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const intervalEvents = interval(1000);
+    const buffered = intervalEvents.pipe(buffer(clicks));
+    buffered.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**bufferCount** -
+**bufferCount** - Buffers the source Observable values until the size hits the maximum bufferSize given.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, bufferCount } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>bufferCount operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const buffered = clicks.pipe(bufferCount(2));
+    buffered.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**bufferTime** -
+**bufferTime** - Buffers the source Observable values for a specific time period.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, bufferTime } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>bufferTime operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const buffered = clicks.pipe(bufferTime(1000));
+    buffered.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**bufferToggle** -
+**bufferToggle** - Buffers the source Observable values starting from an emission from openings and ending when the output of closingSelector emits.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, interval, bufferToggle, EMPTY } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>bufferToggle operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const openings = interval(1000);
+    const buffered = clicks.pipe(bufferToggle(openings, i =>
+      i % 2 ? interval(500) : EMPTY
+    ));
+    buffered.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**bufferWhen** -
+**bufferWhen** - Buffers the source Observable values, using a factory function of closing Observables to determine when to close, emit, and reset the buffer.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, bufferWhen, interval } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>bufferWhen operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const buffered = clicks.pipe(
+      bufferWhen(() => interval(1000 + Math.random() * 4000))
+    );
+    buffered.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**concatMap** -
+**concatMap** - Projects each source value to an Observable which is merged in the output Observable, in a serialized fashion waiting for each one to complete before merging the next.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, concatMap, interval, take } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>concatMap operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(
+      concatMap(ev => interval(1000).pipe(take(4)))
+    );
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**concatMapTo** -
+**concatMapTo** - Projects each source value to the same Observable which is merged multiple times in a serialized fashion on the output Observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, concatMapTo, interval, take } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>concatMapTo operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(
+      concatMapTo(interval(1000).pipe(take(4)))
+    );
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**exhaust** -
+**exhaust** - Renamed to exhaustAll.
+
+**exhaustMap** - Projects each source value to an Observable which is merged in the output Observable only if the previous projected Observable has completed.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, exhaustMap, interval, take } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>exhaustMap operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(
+      exhaustMap(() => interval(1000).pipe(take(5)))
+    );
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**exhaustMap** -
+**expand** - Recursively projects each source value to an Observable which is merged in the output Observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, map, expand, of, delay, take } from 'rxjs';
 
-```
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>expand operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const powersOfTwo = clicks.pipe(
+      map(() => 1),
+      expand(x => of(2 * x).pipe(delay(1000))),
+      take(10)
+    );
+    powersOfTwo.subscribe(x => console.log(x));
+  }
+}
 
-**expand** -
-
-```typescript
-
+bootstrapApplication(App);
 ```
 
 **groupBy** -
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, groupBy, mergeMap, reduce } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>groupBy operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    of(
+      { id: 1, name: 'JavaScript' },
+      { id: 2, name: 'Parcel' },
+      { id: 2, name: 'webpack' },
+      { id: 1, name: 'TypeScript' },
+      { id: 3, name: 'TSLint' }
+    ).pipe(
+      groupBy(p => p.id),
+      mergeMap(group$ => group$.pipe(reduce((acc, cur) => [...acc, cur], [])))
+    )
+    .subscribe(p => console.log(p));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **map** - Applies a given project function to each value emitted by the source Observable, and emits the resulting values as an Observable.
@@ -2229,64 +2518,341 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-delay
+**delay** - Delays the emission of items from the source Observable by a given timeout or until a given Date.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, delay } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>delay Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const delayedClicks = clicks.pipe(delay(1000)); // each click emitted after 1 second
+    delayedClicks.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-delayWhen
+**delayWhen** - Delays the emission of items from the source Observable by a given time span determined by the emissions of another Observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, delay } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>delayWhen Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const delayedClicks = clicks.pipe(
+      delayWhen(() => interval(Math.random() * 5000))
+    );
+    delayedClicks.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-dematerialize
+**dematerialize** - Converts an Observable of ObservableNotification objects into the emissions that they represent.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { NextNotification, ErrorNotification, of, dematerialize } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>dematerialize Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const notifA: NextNotification<string> = { kind: 'N', value: 'A' };
+    const notifB: NextNotification<string> = { kind: 'N', value: 'B' };
+    const notifE: ErrorNotification = { kind: 'E', error: new TypeError('x.toUpperCase is not a function') };
+    
+    const materialized = of(notifA, notifB, notifE);
+    
+    const upperCase = materialized.pipe(dematerialize());
+    upperCase.subscribe({
+      next: x => console.log(x),
+      error: e => console.error(e)
+    });
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-materialize
+**materialize** - Represents all of the notifications from the source Observable as next emissions marked with their original types within Notification objects.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, materialize, map } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>materialize Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const letters = of('a', 'b', 13, 'd');
+    const upperCase = letters.pipe(map((x: any) => x.toUpperCase()));
+    const materialized = upperCase.pipe(materialize());
+    
+    materialized.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-observeOn
+**observeOn** - Re-emits all notifications from source Observable with specified scheduler.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval, observeOn, animationFrameScheduler } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>observeOn Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const someDiv = document.createElement('div');
+    someDiv.style.cssText = 'width: 200px;background: #09c';
+    document.body.appendChild(someDiv);
+    const intervals = interval(10);      // Intervals are scheduled
+                                        // with async scheduler by default...
+    intervals.pipe(
+      observeOn(animationFrameScheduler) // ...but we will observe on animationFrame
+    )                                    // scheduler to ensure smooth animation.
+    .subscribe(val => {
+      someDiv.style.height = val + 'px';
+    });
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-subscribeOn
+**subscribeOn** - Asynchronously subscribes Observers to this Observable on the specified SchedulerLike.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, merge } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>subscribeOn Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const a = of(1, 2, 3);
+    const b = of(4, 5, 6);
+    
+    merge(a, b).subscribe(console.log);
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-timeInterval
+**timeInterval** - Emits an object containing the current value, and the time that has passed between emitting the current value and the previous value, which is calculated by using the provided scheduler's now() method to retrieve the current time at each emission, then calculating the difference. The scheduler defaults to asyncScheduler, so by default, the interval will be in milliseconds.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval, timeInterval } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>timeInterval Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const seconds = interval(1000);
+    
+    seconds
+      .pipe(timeInterval())
+      .subscribe(value => console.log(value));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-timestamp
+**timestamp** - Attaches a timestamp to each item emitted by an observable indicating when it was emitted
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, timestamp } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>timestamp Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const clickWithTimestamp = fromEvent(document, 'click').pipe(
+      timestamp()
+    );
+
+    // Emits data of type { value: PointerEvent, timestamp: number }
+    clickWithTimestamp.subscribe(data => {
+      console.log(data);
+    });
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-timeout
+**timeout** - Errors if Observable does not emit a value in given time span.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, delay } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>timeout Example</h1>
+  `,
+})
+
+class CustomTimeoutError extends Error {
+  constructor() {
+    super('It was too slow');
+    this.name = 'CustomTimeoutError';
+  }
+}
+
+export class App implements OnInit {
+
+  ngOnInit() {
+    const slow$ = interval(900);
+    
+    slow$.pipe(
+      timeout({
+        each: 1000,
+        with: () => throwError(() => new CustomTimeoutError())
+      })
+    )
+    .subscribe({
+      error: console.error
+    });
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-timeoutWith
+**timeoutWith** - When the passed timespan elapses before the source emits any given value, it will unsubscribe from the source, and switch the subscription to another observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval, timeoutWith } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>timeoutWith Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const slow$ = interval(1000);
+    const faster$ = interval(500);
+
+    slow$
+      .pipe(timeoutWith(900, faster$))
+      .subscribe(console.log);
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **toArray** - Collects all source emissions and emits them as an array when the source completes.
@@ -2349,62 +2915,283 @@ bootstrapApplication(App);
 
 ### Conditional and Boolean Operators
 
-**defaultIfEmpty** -
+**defaultIfEmpty** - Emits a given value if the source Observable completes without emitting any next value, otherwise mirrors the source Observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, takeUntil, interval, defaultIfEmpty } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>defaultIfEmpty operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const clicksBeforeFive = clicks.pipe(takeUntil(interval(5000)));
+    const result = clicksBeforeFive.pipe(defaultIfEmpty('no clicks'));
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**every** -
+**every** - Returns an Observable that emits whether or not every item of the source satisfies the condition specified.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, every } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>every operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    of(1, 2, 3, 4, 5, 6)
+      .pipe(every(x => x < 5))
+      .subscribe(x => console.log(x)); // -> false
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**find** -
+**find** - Emits only the first value emitted by the source Observable that meets some condition.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, find } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>find operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const div = document.createElement('div');
+    div.style.cssText = 'width: 200px; height: 200px; background: #09c;';
+    document.body.appendChild(div);
+
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(find(ev => (<HTMLElement>ev.target).tagName === 'DIV'));
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**findIndex** -
+**findIndex** - Emits only the index of the first value emitted by the source Observable that meets some condition.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, findIndex } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>findIndex operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const div = document.createElement('div');
+    div.style.cssText = 'width: 200px; height: 200px; background: #09c;';
+    document.body.appendChild(div);
+
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(findIndex(ev => (<HTMLElement>ev.target).tagName === 'DIV'));
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**isEmpty** -
+**isEmpty** - Emits false if the input Observable emits any values, or emits true if the input Observable completes without emitting any values.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { Subject, isEmpty } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>isEmpty operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const source = new Subject<string>();
+    const result = source.pipe(isEmpty());
+    
+    source.subscribe(x => console.log(x));
+    result.subscribe(x => console.log(x));
+
+    source.next('a');
+    source.next('b');
+    source.next('c');
+    source.complete();
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 [Back to top⤴️](#contents)
 
 ### Mathematical and Aggregate Operators
 
-**count** -
+**count** - Counts the number of emissions on the source and emits that number when the source completes.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval, fromEvent, takeUntil, count } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>count operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const seconds = interval(1000);
+    const clicks = fromEvent(document, 'click');
+    const secondsBeforeClick = seconds.pipe(takeUntil(clicks));
+    const result = secondsBeforeClick.pipe(count());
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**max** -
+**max** - The max operator operates on an Observable that emits numbers (or items that can be compared with a provided function), and when source Observable completes it emits a single item: the item with the largest value.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, max } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>max operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    of(5, 4, 7, 2, 8)
+      .pipe(max())
+      .subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**min** -
+**min** - The min operator operates on an Observable that emits numbers (or items that can be compared with a provided function), and when source Observable completes it emits a single item: the item with the smallest value.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, min } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>min operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    of(5, 4, 7, 2, 8)
+      .pipe(min())
+      .subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**reduce** -
+**reduce** - Applies an accumulator function over the source Observable, and returns the accumulated result when the source completes, given an optional seed value.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, takeUntil, interval, map, reduce } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>reduce operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const clicksInFiveSeconds = fromEvent(document, 'click')
+      .pipe(takeUntil(interval(5000)));
+
+    const ones = clicksInFiveSeconds.pipe(map(() => 1));
+    const seed = 0;
+    const count = ones.pipe(reduce((acc, one) => acc + one, seed));
+
+    count.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 [Back to top⤴️](#contents)
