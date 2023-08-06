@@ -858,11 +858,39 @@ bootstrapApplication(App);
 
 [Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-x8njvg?file=src%2Fmain.ts)
 
-**partition** -
+**partition** - Splits the source Observable into two, one with values that satisfy a predicate, and another with values that don't satisfy the predicate.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, partition } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>partition operator</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    const observableValues = of(1, 2, 3, 4, 5, 6);
+    const [evens$, odds$] = partition(observableValues, value => value % 2 === 0);
+    
+    odds$.subscribe(x => console.log('odds', x));
+    evens$.subscribe(x => console.log('evens', x));
+  }
+}
+
+bootstrapApplication(App);
 ```
+
+[Stackblitz RxJS Example Link](https://stackblitz.com/edit/rxjs-u9s5gf?file=index.html)
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-tmvrze?file=src%2Fmain.ts)
 
 **race** -
 
