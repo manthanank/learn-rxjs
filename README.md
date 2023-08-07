@@ -2234,76 +2234,409 @@ bootstrapApplication(App);
 
 [Stackblitz Angular Example Link](https://stackblitz.com/edit/stackblitz-starters-jtriop?file=src%2Fmain.ts)
 
-**elementAt** -
+**elementAt** - Emits the single value at the specified index in a sequence of emissions from the source Observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, elementAt } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>elementAt Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(elementAt(2));
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**filter** -
+**filter** - Filter items emitted by the source Observable by only emitting those that satisfy a specified predicate.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, filter } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>filter Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const div = document.createElement('div');
+    div.style.cssText = 'width: 200px; height: 200px; background: #09c;';
+    document.body.appendChild(div);
+
+    const clicks = fromEvent(document, 'click');
+    const clicksOnDivs = clicks.pipe(filter(ev => (<HTMLElement>ev.target).tagName === 'DIV'));
+    clicksOnDivs.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**first** -
+**first** - Emits only the first value (or the first value that meets some condition) emitted by the source Observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, first } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>first Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(first());
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**ignoreElements** -
+**ignoreElements** - Ignores all items emitted by the source Observable and only passes calls of complete or error.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, ignoreElements } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>ignoreElements Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    of('you', 'talking', 'to', 'me')
+      .pipe(ignoreElements())
+      .subscribe({
+        next: word => console.log(word),
+        error: err => console.log('error:', err),
+        complete: () => console.log('the end'),
+      });
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**last** -
+**last** - Returns an Observable that emits only the last item emitted by the source Observable. It optionally takes a predicate function as a parameter, in which case, rather than emitting the last item from the source Observable, the resulting Observable will emit the last item from the source Observable that satisfies the predicate.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { from, last } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>last Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const source = from(['x', 'y', 'z']);
+    const result = source.pipe(last());
+
+    result.subscribe(value => console.log(`Last alphabet: ${ value }`));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**sample** -
+**sample** - Emits the most recently emitted value from the source Observable whenever another Observable, the notifier, emits.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, interval, sample } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>sample Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const seconds = interval(1000);
+    const clicks = fromEvent(document, 'click');
+    const result = seconds.pipe(sample(clicks));
+
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**sampleTime** -
+**sampleTime** - Emits the most recently emitted value from the source Observable within periodic time intervals.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, sampleTime } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>sampleTime Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(sampleTime(1000));
+
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**single** -
+**single** - Returns an observable that asserts that only one value is emitted from the observable that matches the predicate. If no predicate is provided, then it will assert that the observable only emits one value.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, single } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>single Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const source1 = of(
+    { name: 'Ben' },
+    { name: 'Tracy' },
+    { name: 'Laney' },
+    { name: 'Lily' }
+    );
+    
+    source1
+      .pipe(single(x => x.name.startsWith('B')))
+      .subscribe(x => console.log(x));
+    // Emits 'Ben'
+    
+    
+    const source2 = of(
+    { name: 'Ben' },
+    { name: 'Tracy' },
+    { name: 'Bradley' },
+    { name: 'Lincoln' }
+    );
+    
+    source2
+      .pipe(single(x => x.name.startsWith('B')))
+      .subscribe({ error: err => console.error(err) });
+    // Error emitted: SequenceError('Too many values match')
+    
+    
+    const source3 = of(
+    { name: 'Laney' },
+    { name: 'Tracy' },
+    { name: 'Lily' },
+    { name: 'Lincoln' }
+    );
+    
+    source3
+      .pipe(single(x => x.name.startsWith('B')))
+      .subscribe({ error: err => console.error(err) });
+    // Error emitted: NotFoundError('No values match')
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**skip** -
+**skip** -Returns an Observable that skips the first count items emitted by the source Observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval, skip } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>skip Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    // emit every half second
+    const source = interval(500);
+    // skip the first 10 emitted values
+    const result = source.pipe(skip(10));
+
+    result.subscribe(value => console.log(value));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**skipLast** -
+**skipLast** - Skip a specified number of values before the completion of an observable.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, skipLast } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>skipLast Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const numbers = of(1, 2, 3, 4, 5);
+    const skipLastTwo = numbers.pipe(skipLast(2));
+    skipLastTwo.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**skipUntil** -
+**skipUntil** - Returns an Observable that skips items emitted by the source Observable until a second Observable emits an item.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval, fromEvent, skipUntil } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>skipUntil Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const intervalObservable = interval(1000);
+    const click = fromEvent(document, 'click');
+
+    const emitAfterClick = intervalObservable.pipe(
+      skipUntil(click)
+    );
+    // clicked at 4.6s. output: 5...6...7...8........ or
+    // clicked at 7.3s. output: 8...9...10..11.......
+    emitAfterClick.subscribe(value => console.log(value));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**skipWhile** -
+**skipWhile** - Returns an Observable that skips all items emitted by the source Observable as long as a specified condition holds true, but emits all further source items as soon as the condition becomes false.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { from, skipWhile } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>skipWhile Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const source = from(['Green Arrow', 'SuperMan', 'Flash', 'SuperGirl', 'Black Canary'])
+    // Skip the heroes until SuperGirl
+    const example = source.pipe(skipWhile(hero => hero !== 'SuperGirl'));
+    // output: SuperGirl, Black Canary
+    example.subscribe(femaleHero => console.log(femaleHero));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **take** - Emits only the first count values emitted by the source Observable.
