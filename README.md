@@ -2670,22 +2670,92 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**takeLast** -
+**takeLast** - Waits for the source to complete, then emits the last N values from the source, as specified by the count argument.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { range, takeLast } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>takeLast Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const many = range(1, 100);
+    const lastThree = many.pipe(takeLast(3));
+    lastThree.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**takeUntil** -
+**takeUntil** - Emits the values emitted by the source Observable until a notifier Observable emits a value.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval, fromEvent, takeUntil } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>takeUntil Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const source = interval(1000);
+    const clicks = fromEvent(document, 'click');
+    const result = source.pipe(takeUntil(clicks));
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**takeWhile** -
+**takeWhile** - Emits values emitted by the source Observable so long as each value satisfies the given predicate, and then completes as soon as this predicate is not satisfied.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, takeWhile } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>takeWhile Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const clicks = fromEvent<PointerEvent>(document, 'click');
+    const result = clicks.pipe(takeWhile(ev => ev.clientX > 200));
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **throttle** -
