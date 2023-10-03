@@ -2951,10 +2951,36 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**switchAll** -
+**switchAll** - Converts a higher-order Observable into a first-order Observable producing values only from the most recent observable sequence
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, tap, map, interval, switchAll } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>switchAll Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click').pipe(tap(() => console.log('click')));
+    const source = clicks.pipe(map(() => interval(1000)));
+    
+    source
+      .pipe(switchAll())
+      .subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **startWith** -
