@@ -2788,10 +2788,34 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**throttleTime** -
+**throttleTime** - Emits a value from the source Observable, then ignores subsequent source values for duration milliseconds, then repeats this process.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, throttleTime } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>throttleTime Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const result = clicks.pipe(throttleTime(1000));
+
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 [Back to top⤴️](#contents)
