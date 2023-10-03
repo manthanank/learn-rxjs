@@ -2822,10 +2822,38 @@ bootstrapApplication(App);
 
 ### Join Operators
 
-**combineLatestAll** -
+**combineLatestAll** - Flattens an Observable-of-Observables by applying combineLatest when the Observable-of-Observables completes.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, map, interval, take, combineLatestAll } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>combineLatestAll Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const higherOrder = clicks.pipe(
+      map(() => interval(Math.random() * 2000).pipe(take(3))),
+      take(2)
+    );
+    const result = higherOrder.pipe(combineLatestAll());
+
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **concatAll** -
