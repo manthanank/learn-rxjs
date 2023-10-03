@@ -2920,10 +2920,35 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**mergeAll** -
+**mergeAll** - Converts a higher-order Observable into a first-order Observable which concurrently delivers all values that are emitted on the inner Observables.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, map, interval, mergeAll } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>mergeAll Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const higherOrder = clicks.pipe(map(() => interval(1000)));
+    const firstOrder = higherOrder.pipe(mergeAll());
+
+    firstOrder.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **switchAll** -
