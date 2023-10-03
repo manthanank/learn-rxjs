@@ -2888,10 +2888,36 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**exhaustAll** -
+**exhaustAll** - Converts a higher-order Observable into a first-order Observable by dropping inner Observables while the previous inner Observable has not yet completed.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, map, interval, take, exhaustAll } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>exhaustAll Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const higherOrder = clicks.pipe(
+      map(() => interval(1000).pipe(take(5)))
+    );
+    const result = higherOrder.pipe(exhaustAll());
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **mergeAll** -
