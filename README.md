@@ -2983,10 +2983,36 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**startWith** -
+**startWith** - Returns an observable that, at the moment of subscription, will synchronously emit all values provided to this operator, then subscribe to the source and mirror all of its emissions to subscribers.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { timer, map, startWith } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>startWith Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    timer(1000)
+      .pipe(
+        map(() => 'timer emit'),
+        startWith('timer start')
+      )
+      .subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 **withLatestFrom** -
