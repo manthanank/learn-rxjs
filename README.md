@@ -3015,10 +3015,36 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**withLatestFrom** -
+**withLatestFrom** - Combines the source Observable with other Observables to create an Observable whose values are calculated from the latest values of each, only when the source emits.
 
 ```typescript
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { fromEvent, interval, withLatestFrom } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>withLatestFrom Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const clicks = fromEvent(document, 'click');
+    const higherOrder = clicks.pipe(
+      map(() => interval(1000).pipe(take(5)))
+    );
+    const result = higherOrder.pipe(exhaustAll());
+    result.subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 ### Multicasting Operators
