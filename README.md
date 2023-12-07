@@ -3089,22 +3089,139 @@ bootstrapApplication(App);
 
 ### Error Handling Operators
 
-**catchError** -
+**catchError** - Catches errors on the observable to be handled by returning a new observable or throwing an error.
 
-```typescript
+```jsx
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { of, map, catchError } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>catchError Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    of(1, 2, 3, 4, 5)
+      .pipe(
+        map(n => {
+          if (n === 4) {
+            throw 'four!';
+          }
+          return n;
+        }),
+        catchError(err => of('I', 'II', 'III', 'IV', 'V'))
+      )
+      .subscribe(x => console.log(x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**retry** -
+**retry** - Returns an Observable that mirrors the source Observable with the exception of an error.
 
-```typescript
+```jsx
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval, mergeMap, throwError, of, retry } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>retry Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const source = interval(1000);
+    const result = source.pipe(
+      mergeMap(val => val > 5 ? throwError(() => 'Error!') : of(val)),
+      retry(2) // retry 2 times on error
+    );
+    
+    result.subscribe({
+      next: value => console.log(value),
+      error: err => console.log(`${ err }: Retried 2 times then quit!`)
+    });
+    
+    // Output:
+    // 0..1..2..3..4..5..
+    // 0..1..2..3..4..5..
+    // 0..1..2..3..4..5..
+    // 'Error!: Retried 2 times then quit!'
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**retryWhen** -
+**retryWhen** - Returns an Observable that mirrors the source Observable with the exception of an error. If the source Observable calls error, this method will emit the Throwable that caused the error to the ObservableInput returned from notifier. If that Observable calls complete or error then this method will call complete or error on the child subscription. Otherwise this method will resubscribe to the source Observable.
 
-```typescript
+```jsx
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval, map, retryWhen, tap, delayWhen, timer } from 'rxjs';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>retryWhen Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const source = interval(1000);
+    const result = source.pipe(
+      map(value => {
+        if (value > 5) {
+          // error will be picked up by retryWhen
+          throw value;
+        }
+        return value;
+      }),
+      retryWhen(errors =>
+        errors.pipe(
+          // log error message
+          tap(value => console.log(`Value ${ value } was too high!`)),
+          // restart in 5 seconds
+          delayWhen(value => timer(value * 1000))
+        )
+      )
+    );
+    
+    result.subscribe(value => console.log(value));
+    
+    // results:
+    // 0
+    // 1
+    // 2
+    // 3
+    // 4
+    // 5
+    // 'Value 6 was too high!'
+    // - Wait 5 seconds then repeat
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 [Back to top⤴️](#contents)
