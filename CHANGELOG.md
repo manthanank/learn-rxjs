@@ -1,3 +1,12 @@
+# [1.40.0](https://github.com/manthanank/learn-rxjs/compare/v1.39.0...v1.40.0) (2023-12-07)
+
+
+### Features
+
+* added Error Handling Operators ([ae096eb](https://github.com/manthanank/learn-rxjs/commit/ae096eb0e4a2366ecdcfe1246a1496e4a0211b06))
+
+
+
 # [1.39.0](https://github.com/manthanank/learn-rxjs/compare/v1.38.0...v1.39.0) (2023-08-13)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * updated readme ([05940bf](https://github.com/manthanank/learn-rxjs/commit/05940bfd033e2df4c0be7150c4647ae98de6420c))
-
-
-
-# [1.35.0](https://github.com/manthanank/learn-rxjs/compare/v1.34.0...v1.35.0) (2023-08-05)
-
-
-### Features
-
-* updated readme ([a1df9b7](https://github.com/manthanank/learn-rxjs/commit/a1df9b7ffe4386d18e917abf2bda32c5200ffe20))
 
 
 
