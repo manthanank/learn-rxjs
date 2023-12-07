@@ -1,3 +1,12 @@
+# [1.41.0](https://github.com/manthanank/learn-rxjs/compare/v1.40.0...v1.41.0) (2023-12-07)
+
+
+### Features
+
+* added Multicasting Operators ([8f709be](https://github.com/manthanank/learn-rxjs/commit/8f709be0c4b0eaef56dd5ad420be5936e2f5dfec))
+
+
+
 # [1.40.0](https://github.com/manthanank/learn-rxjs/compare/v1.39.0...v1.40.0) (2023-12-07)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * updated readme ([26b1ed7](https://github.com/manthanank/learn-rxjs/commit/26b1ed74c6f62fbb4415baf2d29fbc173f2a4f4b))
-
-
-
-# [1.36.0](https://github.com/manthanank/learn-rxjs/compare/v1.35.0...v1.36.0) (2023-08-06)
-
-
-### Features
-
-* updated readme ([05940bf](https://github.com/manthanank/learn-rxjs/commit/05940bfd033e2df4c0be7150c4647ae98de6420c))
 
 
 
