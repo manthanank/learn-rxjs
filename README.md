@@ -3051,38 +3051,135 @@ bootstrapApplication(App);
 
 **multicast** -
 
-```typescript
+[Link](https://rxjs.dev/api/operators/multicast)
 
+**publish** - Returns a ConnectableObservable, which is a variety of Observable that waits until its connect method is called before it begins emitting items to those Observers that have subscribed to it.
+
+```jsx
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { zip, interval, of, map, publish, merge, tap } from 'rxjs';
+
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>publish Example</h1>
+  `,
+})
+export class App implements OnInit {
+
+  ngOnInit() {
+    const source$ = zip(interval(2000), of(1, 2, 3, 4, 5, 6, 7, 8, 9))
+      .pipe(map(([, number]) => number));
+    
+    source$
+      .pipe(
+        publish(multicasted$ =>
+          merge(
+            multicasted$.pipe(tap(x => console.log('Stream 1:', x))),
+            multicasted$.pipe(tap(x => console.log('Stream 2:', x))),
+            multicasted$.pipe(tap(x => console.log('Stream 3:', x)))
+          )
+        )
+      )
+      .subscribe();
+  }
+}
+
+bootstrapApplication(App);
 ```
 
-**publish** -
+**publishBehavior** - Creates a ConnectableObservable that utilizes a BehaviorSubject.
 
-```typescript
+[Link](https://rxjs.dev/api/operators/publishBehavior)
 
-```
+**publishLast** - Returns a connectable observable sequence that shares a single subscription to the underlying sequence containing only the last notification.
 
-**publishBehavior** -
+```jsx
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { ConnectableObservable, interval, publishLast, tap, take } from 'rxjs';
 
-```typescript
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>publishLast Example</h1>
+  `,
+})
+export class App implements OnInit {
 
-```
+  ngOnInit() {
+    const connectable = <ConnectableObservable<number>>interval(1000)
+      .pipe(
+        tap(x => console.log('side effect', x)),
+        take(3),
+        publishLast()
+      );
+    
+    connectable.subscribe({
+      next: x => console.log('Sub. A', x),
+      error: err => console.log('Sub. A Error', err),
+      complete: () => console.log('Sub. A Complete')
+    });
+    
+    connectable.subscribe({
+      next: x => console.log('Sub. B', x),
+      error: err => console.log('Sub. B Error', err),
+      complete: () => console.log('Sub. B Complete')
+    });
+    
+    connectable.connect();
+  }
+}
 
-**publishLast** -
-
-```typescript
-
+bootstrapApplication(App);
 ```
 
 **publishReplay** -
 
-```typescript
+[Link](https://rxjs.dev/api/operators/publishReplay)
 
-```
+**share** - Returns a new Observable that multicasts (shares) the original Observable. As long as there is at least one Subscriber this Observable will be subscribed and emitting data. When all subscribers have unsubscribed it will unsubscribe from the source Observable. Because the Observable is multicasting it makes the stream hot. This is an alias for multicast(() => new Subject()), refCount().
 
-**share** -
+```jsx
+import 'zone.js/dist/zone';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval, tap, map, take, share } from 'rxjs';
 
-```typescript
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1>share Example</h1>
+  `,
+})
+export class App implements OnInit {
 
+  ngOnInit() {
+    const source = interval(1000).pipe(
+      tap(x => console.log('Processing: ', x)),
+      map(x => x * x),
+      take(6),
+      share()
+    );
+    
+    source.subscribe(x => console.log('subscription 1: ', x));
+    source.subscribe(x => console.log('subscription 2: ', x));
+  }
+}
+
+bootstrapApplication(App);
 ```
 
 [Back to top⤴️](#contents)
