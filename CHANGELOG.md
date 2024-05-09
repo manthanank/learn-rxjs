@@ -1,3 +1,12 @@
+# [1.42.0](https://github.com/manthanank/learn-rxjs/compare/v1.41.0...v1.42.0) (2024-05-09)
+
+
+### Features
+
+* Create CODE_OF_CONDUCT.md ([7998ec4](https://github.com/manthanank/learn-rxjs/commit/7998ec414f281333cc76efba9b0006b0b768fce8))
+
+
+
 # [1.41.0](https://github.com/manthanank/learn-rxjs/compare/v1.40.0...v1.41.0) (2023-12-07)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * updated readme ([1010130](https://github.com/manthanank/learn-rxjs/commit/10101307cecc48b3756b5b48c5e0e9b22d9ea122))
-
-
-
-# [1.37.0](https://github.com/manthanank/learn-rxjs/compare/v1.36.0...v1.37.0) (2023-08-06)
-
-
-### Features
-
-* updated readme ([26b1ed7](https://github.com/manthanank/learn-rxjs/commit/26b1ed74c6f62fbb4415baf2d29fbc173f2a4f4b))
 
 
 
