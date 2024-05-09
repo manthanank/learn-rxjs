@@ -1,3 +1,12 @@
+# [1.43.0](https://github.com/manthanank/learn-rxjs/compare/v1.42.0...v1.43.0) (2024-05-09)
+
+
+### Features
+
+* Create SECURITY.md ([b080eb7](https://github.com/manthanank/learn-rxjs/commit/b080eb7182d26d6d3b44d86da77275d2fc877a99))
+
+
+
 # [1.42.0](https://github.com/manthanank/learn-rxjs/compare/v1.41.0...v1.42.0) (2024-05-09)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * updated readme ([f93d312](https://github.com/manthanank/learn-rxjs/commit/f93d312819a2426fc7e8331a7a56dac6c5f90ff4))
-
-
-
-# [1.38.0](https://github.com/manthanank/learn-rxjs/compare/v1.37.0...v1.38.0) (2023-08-07)
-
-
-### Features
-
-* updated readme ([1010130](https://github.com/manthanank/learn-rxjs/commit/10101307cecc48b3756b5b48c5e0e9b22d9ea122))
 
 
 
