@@ -1,3 +1,12 @@
+# [1.44.0](https://github.com/manthanank/learn-rxjs/compare/v1.43.0...v1.44.0) (2024-06-06)
+
+
+### Features
+
+* Update ajax & bindCallback examples in README ([54ec50e](https://github.com/manthanank/learn-rxjs/commit/54ec50e10436b12f4d169e2f2c633c53345f29c9))
+
+
+
 # [1.43.0](https://github.com/manthanank/learn-rxjs/compare/v1.42.0...v1.43.0) (2024-05-09)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * added Error Handling Operators ([ae096eb](https://github.com/manthanank/learn-rxjs/commit/ae096eb0e4a2366ecdcfe1246a1496e4a0211b06))
-
-
-
-# [1.39.0](https://github.com/manthanank/learn-rxjs/compare/v1.38.0...v1.39.0) (2023-08-13)
-
-
-### Features
-
-* updated readme ([f93d312](https://github.com/manthanank/learn-rxjs/commit/f93d312819a2426fc7e8331a7a56dac6c5f90ff4))
 
 
 
