@@ -146,6 +146,8 @@ Operators are functions. There are two kinds of operators:
 
 **ajax** - It creates an observable for an Ajax request with either a request object with url, headers, etc or a string for a URL.
 
+Example with Angular:
+
 ```typescript
 import 'zone.js/dist/zone';
 import { Component, OnInit } from '@angular/core';
@@ -163,70 +165,34 @@ import { ajax } from 'rxjs/ajax';
 })
 export class App implements OnInit {
   ngOnInit() {
-    const githubUsers = `https://api.github.com/users?per_page=2`;
-
-    const users = ajax(githubUsers);
-
-    const subscribe = users.subscribe(
-      (res) => console.log(res),
-      (err) => console.error(err)
-    );
+    const githubUsers = ajax('https://api.github.com/users?per_page=2');
+    githubUsers.subscribe((res) => console.log(res.status, res.response));
   }
 }
 
 bootstrapApplication(App);
 ```
+
+[Stackblitz Angular Example Link](https://stackblitz.com/edit/angular-ees5qn?file=src%2Fmain.ts)
+
+Example with TypeScript:
+
+```typescript
+import { ajax } from 'rxjs/ajax';
+
+const githubUsers = ajax('https://api.github.com/users?per_page=2');
+githubUsers.subscribe((res) => console.log(res.status, res.response));
+```
+
+[Stackblitz TypeScript Example Link](https://stackblitz.com/edit/rxjs-umrlkx?file=index.ts)
 
 **bindCallback** - `bindCallback` operator is used to convert a callback-style function into an observable.
 
 It allows you to work with asynchronous APIs that follow the Node.js-style callback pattern, where the last argument of a function is a callback function that is invoked with the result or error.
 
-```typescript
-import 'zone.js/dist/zone';
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { bootstrapApplication } from '@angular/platform-browser';
-import { bindCallback } from 'rxjs/ajax';
-
-@Component({
-  selector: 'my-app',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
-    <h1>bindCallback Example</h1>
-    <button (click)="performAsyncOperation()">Perform Async Operation</button>
-  `,
-})
-export class App implements OnInit {
-  
-  ngOnInit() {}
-
-  performAsyncOperation() {
-    const boundAsyncFunction = bindCallback(this.someAsyncFunction);
-
-    boundAsyncFunction().subscribe(([error, result]) => {
-      if (error) {
-        console.error('An error occurred:', error);
-      } else {
-        console.log('Result:', result);
-      }
-    });
-  }
-
-  someAsyncFunction(callback: (error: any, result: any) => void) {
-    // Simulating an asynchronous operation
-    setTimeout(() => {
-      const error = null;
-      const result = 'Hello, world!';
-      callback(error, result);
-    }, 2000);
-  }
-}
-
-bootstrapApplication(App);
-```
-
 **bindNodeCallback** - `bindNodeCallback` is a function that converts a Node.js-style callback function into an Observable.
+
+Example with Angular:
 
 ```typescript
 import 'zone.js/dist/zone';
@@ -281,6 +247,8 @@ export class App implements OnInit {
 
 bootstrapApplication(App);
 ```
+
+[Stackblitz Angular Example Link](https://stackblitz.com/edit/stackblitz-starters-avcder?file=src%2Fmain.ts)
 
 **defer** - Creates an Observable that, on subscribe, calls an Observable factory to make an Observable for each new Observer.
 
