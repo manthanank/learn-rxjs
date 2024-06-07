@@ -4016,18 +4016,166 @@ bootstrapApplication(App);
 
 A Subscription is an object that represents a disposable resource, usually the execution of an Observable.
 
+Example of Subscription in RxJS:
+
+```typescript
+import { interval } from 'rxjs';
+
+const observable = interval(1000);
+const subscription = observable.subscribe(x => console.log(x));
+
+subscription.unsubscribe();
+```
+
+[Sthackblitz Example Link](https://stackblitz.com/edit/rxjs-ftdbkq?file=index.html)
+
+Example of Subscription in Angular:
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { interval } from 'rxjs';
+import 'zone.js';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+      <h1>subscription in Angular</h1>
+  `,
+})
+export class App implements OnInit {
+  subscription: any;
+
+  ngOnInit() {
+    const observable = interval(1000);
+    this.subscription = observable.subscribe((x) => console.log(x));
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+}
+
+bootstrapApplication(App);
+```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-krw9xx?file=src%2Fmain.ts)
+
+[Back to top⤴️](#contents)
+
 ## Subject
 
 An RxJS Subject is a special type of Observable that allows values to be multicasted to many Observers.
 
+Example of Subject in RxJS:
+
+```typescript
+import { Subject } from 'rxjs';
+
+const subject = new Subject<number>();
+
+subject.subscribe({
+  next: (v) => console.log(`observerA: ${v}`)
+});
+subject.subscribe({
+  next: (v) => console.log(`observerB: ${v}`)
+});
+
+subject.next(1);
+subject.next(2);
+```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/rxjs-a7chpb?file=index.ts)
+
+Example of Subject in Angular:
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { Subject } from 'rxjs';
+import 'zone.js';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+      <h1>Example of Subject in Angular</h1>
+  `,
+})
+export class App implements OnInit {
+  subject = new Subject<number>();
+
+  ngOnInit() {
+    this.subject.subscribe({
+      next: (v) => console.log(`observerA: ${v}`),
+    });
+    this.subject.subscribe({
+      next: (v) => console.log(`observerB: ${v}`),
+    });
+
+    this.subject.next(1);
+    this.subject.next(2);
+  }
+}
+
+bootstrapApplication(App);
+```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-vvf1jf?file=src%2Fmain.ts)
+
+[Back to top⤴️](#contents)
+
 ## Scheduler
 
-A scheduler controls when a subscription starts and when notifications are delivered. It consists of three components.
+A Scheduler lets you define in what execution context will an Observable deliver notifications to its Observer.
 
-A Scheduler is a data structure. It knows how to store and queue tasks based on priority or other criteria.
+Example of Scheduler in RxJS:
 
-A Scheduler is an execution context. It denotes where and when the task is executed (e.g. immediately, or in another callback mechanism such as setTimeout or process.nextTick, or the animation frame).
+```typescript
+import { asyncScheduler } from 'rxjs';
 
-A Scheduler has a (virtual) clock. It provides a notion of "time" by a getter method now() on the scheduler. Tasks being scheduled on a particular scheduler will adhere only to the time denoted by that clock.
+console.log('before');
+
+asyncScheduler.schedule(() => {
+  console.log('asyncScheduler');
+});
+
+console.log('after');
+```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/rxjs-bm4w4p?file=index.ts)
+
+Example of Scheduler in Angular:
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { asyncScheduler } from 'rxjs';
+import 'zone.js';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+      <h1>Example of Scheduler in Angular</h1>
+  `,
+})
+export class App implements OnInit {
+  ngOnInit() {
+    console.log('before');
+
+    asyncScheduler.schedule(() => {
+      console.log('asyncScheduler');
+    });
+
+    console.log('after');
+  }
+}
+
+bootstrapApplication(App);
+```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-q7mksx?file=src%2Fmain.ts)
 
 [Back to top⤴️](#contents)
