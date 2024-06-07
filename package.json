@@ -11,8 +11,5 @@
     "rxjs"
   ],
   "author": "Manthan Ank",
-  "license": "ISC",
-  "dependencies": {
-    "rxjs": "^7.8.1"
-  }
+  "license": "ISC"
 }
