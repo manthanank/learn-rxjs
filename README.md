@@ -3951,6 +3951,23 @@ bootstrapApplication(App);
 
 **min** - The min operator operates on an Observable that emits numbers (or items that can be compared with a provided function), and when source Observable completes it emits a single item: the item with the smallest value.
 
+Example of Min in RxJS:
+
+```typescript
+import { of } from 'rxjs';
+import { min } from 'rxjs/operators';
+
+const source = of(5, 4, 7, 2, 8);
+const example = source.pipe(min());
+example.subscribe(x => console.log(x));
+
+// Output: 2
+```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/rxjs-ycehjm?file=index.ts)
+
+Example of Min in Angular:
+
 ```typescript
 import 'zone.js/dist/zone';
 import { Component, OnInit } from '@angular/core';
@@ -3963,7 +3980,7 @@ import { of, min } from 'rxjs';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <h1>min operator</h1>
+      <h1>Example of Min in Angular</h1>
   `,
 })
 export class App implements OnInit {
@@ -3977,38 +3994,52 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-7p6qbb?file=src%2Fmain.ts)
+
 **reduce** - Applies an accumulator function over the source Observable, and returns the accumulated result when the source completes, given an optional seed value.
 
+Example of Reduce in RxJS:
+
 ```typescript
-import 'zone.js/dist/zone';
+import { of } from 'rxjs';
+import { reduce } from 'rxjs/operators';
+
+const source = of(1, 2, 3, 4);
+const example = source.pipe(reduce((acc, val) => acc + val, 0));
+example.subscribe(console.log);
+
+// Output: 10
+```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/rxjs-dzhqgd?file=index.ts)
+
+Example of Reduce in Angular:
+
+```typescript
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { fromEvent, takeUntil, interval, map, reduce } from 'rxjs';
+import { of, reduce } from 'rxjs';
+import 'zone.js';
 
 @Component({
-  selector: 'my-app',
+  selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
   template: `
-    <h1>reduce operator</h1>
+      <h1>Example of Reduce in Angular</h1>
   `,
 })
 export class App implements OnInit {
   ngOnInit() {
-    const clicksInFiveSeconds = fromEvent(document, 'click')
-      .pipe(takeUntil(interval(5000)));
-
-    const ones = clicksInFiveSeconds.pipe(map(() => 1));
-    const seed = 0;
-    const count = ones.pipe(reduce((acc, one) => acc + one, seed));
-
-    count.subscribe(x => console.log(x));
+    const source = of(1, 2, 3, 4);
+    const example = source.pipe(reduce((acc, val) => acc + val, 0));
+    example.subscribe(console.log);
   }
 }
 
 bootstrapApplication(App);
 ```
+
+[Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-m3mhm5?file=src%2Fmain.ts)
 
 [Back to top⤴️](#contents)
 
