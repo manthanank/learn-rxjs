@@ -4210,3 +4210,26 @@ bootstrapApplication(App);
 [Stackblitz Example Link](https://stackblitz.com/edit/stackblitz-starters-q7mksx?file=src%2Fmain.ts)
 
 [Back to top⤴️](#contents)
+
+## Connect with me
+
+- [Twitter](https://twitter.com/manthan_ank)
+- [LinkedIn](https://www.linkedin.com/in/manthanank)
+- [Facebook](https://www.facebook.com/manthanank/)
+- [Instagram](https://www.instagram.com/manthan_ank/)
+- [YouTube](https://www.youtube.com/@manthanank)
+- [GitHub](https://github.com/manthanank)
+
+## Support
+
+If you like this learning repository and find it useful, consider buying me a coffee or sponsoring me through the GitHub Sponsor. Your support will help me to continue and bring more exciting projects. Thank you!
+
+[![Buy Me A Coffee](/assets/bmc-button.svg)](https://www.buymeacoffee.com/manthanank)
+
+[![Sponsor Me](https://img.shields.io/badge/Sponsor-GitHub-green)]([https://](https://github.com/sponsors/manthanank))
+
+---
+
+Show your support by 🌟 the repository.
+
+---
