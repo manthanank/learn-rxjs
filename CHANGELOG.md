@@ -1,3 +1,12 @@
+# [1.45.0](https://github.com/manthanank/learn-rxjs/compare/v1.44.0...v1.45.0) (2024-06-16)
+
+
+### Features
+
+* Update publish.yml ([c0e1a4c](https://github.com/manthanank/learn-rxjs/commit/c0e1a4cb5395b129806dca1b7239f22d11f08715))
+
+
+
 # [1.44.0](https://github.com/manthanank/learn-rxjs/compare/v1.43.0...v1.44.0) (2024-06-06)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * added Multicasting Operators ([8f709be](https://github.com/manthanank/learn-rxjs/commit/8f709be0c4b0eaef56dd5ad420be5936e2f5dfec))
-
-
-
-# [1.40.0](https://github.com/manthanank/learn-rxjs/compare/v1.39.0...v1.40.0) (2023-12-07)
-
-
-### Features
-
-* added Error Handling Operators ([ae096eb](https://github.com/manthanank/learn-rxjs/commit/ae096eb0e4a2366ecdcfe1246a1496e4a0211b06))
 
 
 
