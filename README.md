@@ -144,6 +144,24 @@ Operators are functions. There are two kinds of operators:
 
 ### Creation Operators
 
+Theses operators are used to create an observable. Some of the creation operators are:
+
+- ajax
+- bindCallback
+- bindNodeCallback
+- defer
+- empty
+- from
+- fromEvent
+- fromEventPattern
+- generate
+- interval
+- of
+- range
+- throwError
+- timer
+- iif
+
 **ajax** - It creates an observable for an Ajax request with either a request object with url, headers, etc or a string for a URL.
 
 Example with Angular:
@@ -689,6 +707,16 @@ bootstrapApplication(App);
 
 ### Join Creation Operators
 
+These operators are used to create an observable by combining multiple observables. Some of the join creation operators are:
+
+- combineLatest
+- concat
+- forkJoin
+- merge
+- partition
+- race
+- zip
+
 **combineLatest** - Combines multiple Observables to create an Observable whose values are calculated from the latest values of each of its input Observables.
 
 ```typescript
@@ -924,6 +952,37 @@ bootstrapApplication(App);
 [Back to top⤴️](#contents)
 
 ### Transformation Operators
+
+These operators are used to transform the values emitted by an observable. Some of the transformation operators are:
+
+- buffer
+- bufferCount
+- bufferTime
+- bufferToggle
+- bufferWhen
+- concatMap
+- concatMapTo
+- exhaust
+- exhaustMap
+- expand
+- groupBy
+- map
+- mapTo
+- mergeMap
+- mergeMapTo
+- mergeScan
+- pairwise
+- partition
+- pluck
+- scan
+- switchScan
+- switchMap
+- switchMapTo
+- window
+- windowCount
+- windowTime
+- windowToggle
+- windowWhen
 
 **buffer** - Buffers the source Observable values until closingNotifier emits.
 
@@ -1195,7 +1254,7 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**groupBy** -
+**groupBy** - Groups the elements of an observable sequence according to a specified key selector function.
 
 ```typescript
 import 'zone.js/dist/zone';
@@ -1932,6 +1991,34 @@ bootstrapApplication(App);
 [Back to top⤴️](#contents)
 
 ### Filtering Operators
+
+These operators allow you to filter the values emitted by Observables. Some of the most commonly used filtering operators are:
+
+- audit
+- auditTime
+- debounce
+- debounceTime
+- distinct
+- distinctUntilChanged
+- distinctUntilKeyChanged
+- elementAt
+- filter
+- first
+- ignoreElements
+- last
+- sample
+- sampleTime
+- single
+- skip
+- skipLast
+- skipUntil
+- skipWhile
+- take
+- takeLast
+- takeUntil
+- takeWhile
+- throttle
+- throttleTime
 
 **audit** - Ignores source values for a duration determined by another Observable, then emits the most recent value from the source Observable, then repeats this process.
 
@@ -2790,6 +2877,16 @@ bootstrapApplication(App);
 
 ### Join Operators
 
+The join operators are used to combine the emissions of multiple Observables. Some of the join operators are:
+
+- combineLatestAll
+- concatAll
+- exhaustAll
+- mergeAll
+- switchAll
+- startWith
+- withLatestFrom
+
 **combineLatestAll** - Flattens an Observable-of-Observables by applying combineLatest when the Observable-of-Observables completes.
 
 ```typescript
@@ -3017,7 +3114,16 @@ bootstrapApplication(App);
 
 ### Multicasting Operators
 
-**multicast** -
+These operators are used to share the observable execution among multiple subscribers. Some of the multicasting operators are:
+
+- multicast
+- publish
+- publishBehavior
+- publishLast
+- publishReplay
+- share
+
+**multicast** - Returns an Observable that emits the results of invoking a specified selector on items emitted by a ConnectableObservable that shares a single subscription to the underlying stream.
 
 [Link](https://rxjs.dev/api/operators/multicast)
 
@@ -3111,7 +3217,7 @@ export class App implements OnInit {
 bootstrapApplication(App);
 ```
 
-**publishReplay** -
+**publishReplay** - Returns a connectable observable sequence that shares a single subscription to the underlying sequence replaying all notifications.
 
 [Link](https://rxjs.dev/api/operators/publishReplay)
 
@@ -3153,6 +3259,12 @@ bootstrapApplication(App);
 [Back to top⤴️](#contents)
 
 ### Error Handling Operators
+
+These operators are used to handle errors that occur in the observable sequence. Some of the error handling operators are:
+
+- catchError
+- retry
+- retryWhen
 
 **catchError** - Catches errors on the observable to be handled by returning a new observable or throwing an error.
 
@@ -3292,6 +3404,21 @@ bootstrapApplication(App);
 [Back to top⤴️](#contents)
 
 ### Utility Operators
+
+These operators are used to perform utility operations on the observable sequence. Some of the utility operators are:
+
+- tap
+- delay
+- delayWhen
+- dematerialize
+- materialize
+- observeOn
+- subscribeOn
+- timeInterval
+- timestamp
+- timeout
+- timeoutWith
+- toArray
 
 **tap** - Used to perform side-effects for notifications from the source observable.
 
@@ -3731,6 +3858,14 @@ bootstrapApplication(App);
 
 ### Conditional and Boolean Operators
 
+These operators are used to evaluate conditions and return boolean values. Some of the operators are:
+
+- defaultIfEmpty
+- every
+- find
+- findIndex
+- isEmpty
+
 **defaultIfEmpty** - Emits a given value if the source Observable completes without emitting any next value, otherwise mirrors the source Observable.
 
 ```typescript
@@ -3890,6 +4025,13 @@ bootstrapApplication(App);
 [Back to top⤴️](#contents)
 
 ### Mathematical and Aggregate Operators
+
+Theses operators are used to perform mathematical operations on the source observable. Some of the operators are:
+
+- count
+- max
+- min
+- reduce
 
 **count** - Counts the number of emissions on the source and emits that number when the source completes.
 
