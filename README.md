@@ -1,5 +1,7 @@
 # Learn Rxjs
 
+This repository contains the code examples for the RxJS library. RxJS is a library for reactive programming using Observables, to make it easier to compose asynchronous or callback-based code.
+
 [![NPM Package](https://github.com/manthanank/learn-rxjs/actions/workflows/publish.yml/badge.svg)](https://github.com/manthanank/learn-rxjs/actions/workflows/publish.yml)
 [![Releases](https://github.com/manthanank/learn-rxjs/actions/workflows/releases.yml/badge.svg)](https://github.com/manthanank/learn-rxjs/actions/workflows/releases.yml)
 ![npm](https://img.shields.io/npm/dw/learn-rxjs)
